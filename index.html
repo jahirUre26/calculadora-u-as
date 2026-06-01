@@ -8,436 +8,103 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    /* Evitar zoom en doble tap en móviles */
-    button, input, label, a {
-      touch-action: manipulation;
-    }
-
+    button, input, label, a { touch-action: manipulation; }
     body {
       font-family: 'Montserrat', sans-serif;
       background: linear-gradient(145deg, #F5F0EB 0%, #E8DDD4 50%, #F5F0EB 100%);
       min-height: 100vh;
       padding-bottom: 170px;
     }
-
     h1, h2, h3 { font-family: 'Playfair Display', serif; }
-
-    main {
-      padding: 0 16px;
-      max-width: 640px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    /* Header */
-    header {
-      position: relative;
-      padding: 24px 16px;
-      text-align: center;
-    }
+    main { padding: 0 16px; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+    header { position: relative; padding: 24px 16px; text-align: center; }
     .header-emoji { font-size: 2rem; display: block; margin-bottom: 4px; }
-    .salon-title {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #8B5A2B 0%, #D4AF37 50%, #8B5A2B 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 4px;
-    }
-    .tagline {
-      font-size: 0.75rem;
-      color: rgba(146, 64, 14, 0.7);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-    .sparkle {
-      position: absolute;
-      width: 4px; height: 4px;
-      background: #D4AF37;
-      border-radius: 50%;
-      animation: sparkle 2s infinite;
-    }
-    @keyframes sparkle {
-      0%, 100% { opacity: 0; transform: scale(0); }
-      50% { opacity: 1; transform: scale(1); }
-    }
-
-    /* Nav */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      padding: 12px 16px;
-      background: linear-gradient(to bottom, #F5F0EB 80%, transparent);
-    }
-    .nav-inner {
-      display: flex;
-      gap: 8px;
-      max-width: 512px;
-      margin: 0 auto;
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
-    .nav-tab {
-      flex-shrink: 0;
-      padding: 8px 16px;
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #78350F;
-      background: rgba(255,255,255,0.5);
-      border: none;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      transition: all 0.3s;
-    }
-    .nav-tab.active {
-      background: linear-gradient(135deg, #8B5A2B, #6B4423);
-      color: white;
-    }
-
-    /* Cards */
-    .glass-card {
-      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(139,90,43,0.1);
-      border-radius: 16px;
-      padding: 20px;
-    }
-
-    .section-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #78350F;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .step-badge {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: #FEF3C7;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.875rem;
-      color: #78350F;
-      flex-shrink: 0;
-    }
-
-    /* Cliente */
-    .cliente-input {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.6);
-      border: 1.5px solid rgba(253,230,138,0.7);
-      color: #78350F;
-      font-size: 0.875rem;
-      font-family: 'Montserrat', sans-serif;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
+    .salon-title { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #8B5A2B 0%, #D4AF37 50%, #8B5A2B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 4px; }
+    .tagline { font-size: 0.75rem; color: rgba(146, 64, 14, 0.7); letter-spacing: 0.15em; text-transform: uppercase; }
+    .sparkle { position: absolute; width: 4px; height: 4px; background: #D4AF37; border-radius: 50%; animation: sparkle 2s infinite; }
+    @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(0); } 50% { opacity: 1; transform: scale(1); } }
+    nav { position: sticky; top: 0; z-index: 40; padding: 12px 16px; background: linear-gradient(to bottom, #F5F0EB 80%, transparent); }
+    .nav-inner { display: flex; gap: 8px; max-width: 512px; margin: 0 auto; overflow-x: auto; padding-bottom: 2px; }
+    .nav-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; color: #78350F; background: rgba(255,255,255,0.5); border: none; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.3s; }
+    .nav-tab.active { background: linear-gradient(135deg, #8B5A2B, #6B4423); color: white; }
+    .glass-card { background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7)); backdrop-filter: blur(10px); border: 1px solid rgba(139,90,43,0.1); border-radius: 16px; padding: 20px; }
+    .section-title { font-size: 1.2rem; font-weight: 600; color: #78350F; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .step-badge { width: 32px; height: 32px; border-radius: 50%; background: #FEF3C7; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #78350F; flex-shrink: 0; }
+    .cliente-input { width: 100%; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,0.6); border: 1.5px solid rgba(253,230,138,0.7); color: #78350F; font-size: 0.875rem; font-family: 'Montserrat', sans-serif; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
     .cliente-input::placeholder { color: #FBBF24; }
     .cliente-input:focus { border-color: #FBBF24; box-shadow: 0 0 0 3px rgba(251,191,36,0.25); }
-
-    /* Técnica group */
     .tecnica-group { display: flex; flex-direction: column; gap: 10px; }
-
-    /* Collapsible */
-    .collapsible-wrap {
-      border: 1px solid rgba(253,230,138,0.5);
-      border-radius: 12px;
-      padding: 14px;
-      background: rgba(255,255,255,0.3);
-    }
-    .collapsible-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
-      color: #78350F;
-      font-size: 0.9rem;
-    }
+    .collapsible-wrap { border: 1px solid rgba(253,230,138,0.5); border-radius: 12px; padding: 14px; background: rgba(255,255,255,0.3); }
+    .collapsible-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; background: none; border: none; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 500; color: #78350F; font-size: 0.9rem; }
     .arrow { color: #B45309; transition: transform 0.3s; display: inline-block; }
     .collapsible-body { display: none; margin-top: 12px; }
     .collapsible-body.open { display: block; }
-
-    /* Acrílico grid */
-    .acrilico-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .acrilico-btn {
-      padding: 8px 4px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.5);
-      border: 1px solid rgba(253,230,138,0.5);
-      font-size: 0.8rem;
-      color: #78350F;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      transition: all 0.25s;
-      line-height: 1.5;
-    }
+    .acrilico-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+    .acrilico-btn { padding: 8px 4px; border-radius: 10px; background: rgba(255,255,255,0.5); border: 1px solid rgba(253,230,138,0.5); font-size: 0.8rem; color: #78350F; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.25s; line-height: 1.5; }
     .acrilico-btn .price { font-weight: 600; display: block; font-size: 0.75rem; }
-
-    /* Forma */
     #forma-section { display: none; }
-    .forma-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-    }
-    .forma-btn {
-      padding: 9px 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.5);
-      border: 1px solid rgba(253,230,138,0.5);
-      font-size: 0.8rem;
-      color: #78350F;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      transition: all 0.25s;
-    }
-    .color-check {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 12px;
-      cursor: pointer;
-      font-size: 0.875rem;
-      color: #92400E;
-    }
+    .forma-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .forma-btn { padding: 9px 12px; border-radius: 10px; background: rgba(255,255,255,0.5); border: 1px solid rgba(253,230,138,0.5); font-size: 0.8rem; color: #78350F; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.25s; }
+    .color-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; cursor: pointer; font-size: 0.875rem; color: #92400E; }
     .color-check input { width: 16px; height: 16px; accent-color: #B45309; cursor: pointer; }
-
-    /* Simple option button */
-    .option-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.3);
-      border: 1px solid rgba(253,230,138,0.5);
-      color: #78350F;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.875rem;
-      text-align: left;
-      transition: all 0.25s;
-    }
+    .option-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: rgba(255,255,255,0.3); border: 1px solid rgba(253,230,138,0.5); color: #78350F; cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: 0.875rem; text-align: left; transition: all 0.25s; }
     .option-btn .price-tag { font-weight: 600; color: #B45309; }
     .option-btn .sub { font-size: 0.7rem; opacity: 0.65; }
-
-    .rubber-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.5);
-      border: 1px solid rgba(253,230,138,0.5);
-      font-size: 0.82rem;
-      color: #78350F;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      transition: all 0.25s;
-    }
+    .rubber-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 10px; background: rgba(255,255,255,0.5); border: 1px solid rgba(253,230,138,0.5); font-size: 0.82rem; color: #78350F; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.25s; }
     .rubber-options { display: flex; flex-direction: column; gap: 8px; }
-
-    /* Hover & selected states */
-    .acrilico-btn:hover, .forma-btn:hover, .option-btn:hover, .rubber-btn:hover {
-      background: rgba(139,90,43,0.1);
-      transform: translateY(-1px);
-    }
-    .selected-option {
-      background: linear-gradient(135deg, #8B5A2B, #6B4423) !important;
-      color: white !important;
-      transform: scale(1.02);
-      box-shadow: 0 6px 20px rgba(139,90,43,0.3);
-    }
+    .acrilico-btn:hover, .forma-btn:hover, .option-btn:hover, .rubber-btn:hover { background: rgba(139,90,43,0.1); transform: translateY(-1px); }
+    .selected-option { background: linear-gradient(135deg, #8B5A2B, #6B4423) !important; color: white !important; transform: scale(1.02); box-shadow: 0 6px 20px rgba(139,90,43,0.3); }
     .selected-option .price-tag { color: white !important; }
-
-    /* Decoraciones */
     .deco-hint { font-size: 0.75rem; color: #B45309; margin-bottom: 14px; }
-    .deco-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 320px;
-      overflow-y: auto;
-      padding-right: 6px;
-    }
-    .deco-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.4);
-      border: 1px solid #FEF3C7;
-    }
+    .deco-list { display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; padding-right: 6px; }
+    .deco-item { display: flex; align-items: center; padding: 8px 12px; border-radius: 10px; background: rgba(255,255,255,0.4); border: 1px solid #FEF3C7; }
     .deco-name { font-size: 0.875rem; color: #78350F; flex: 1; }
     .deco-price { font-size: 0.72rem; color: #B45309; width: 46px; text-align: right; }
     .deco-counter { display: flex; align-items: center; gap: 8px; margin-left: 10px; }
     .deco-qty { width: 22px; text-align: center; font-size: 0.875rem; font-weight: 500; color: #78350F; }
-
-    .counter-btn {
-      width: 28px; height: 28px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 50%;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1rem;
-      line-height: 1;
-      transition: all 0.2s;
-    }
+    .counter-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 600; border: none; cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: 1rem; line-height: 1; transition: all 0.2s; }
     .counter-btn:hover { transform: scale(1.12); }
     .counter-btn.minus { background: #FEF3C7; color: #92400E; }
     .counter-btn.plus  { background: #B45309; color: white; }
     .counter-btn.minus:hover { background: #FDE68A; }
     .counter-btn.plus:hover  { background: #D97706; }
-
-    /* Pedicure */
     .pedicure-options { display: flex; flex-direction: column; gap: 8px; }
     .extras-divider { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(253,230,138,0.35); }
     .extras-label { font-size: 0.875rem; font-weight: 500; color: #92400E; margin-bottom: 8px; }
-
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.3);
-      cursor: pointer;
-      margin-bottom: 6px;
-    }
+    .checkbox-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 10px; background: rgba(255,255,255,0.3); cursor: pointer; margin-bottom: 6px; }
     .checkbox-row span.label { font-size: 0.875rem; color: #78350F; }
     .checkbox-right { display: flex; align-items: center; gap: 8px; }
     .price-tag { font-size: 0.875rem; font-weight: 600; color: #B45309; }
     .checkbox-row input[type=checkbox] { width: 16px; height: 16px; accent-color: #B45309; cursor: pointer; }
-
-    /* Extras */
     .extras-list { display: flex; flex-direction: column; gap: 10px; }
-    .extra-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.3);
-      border: 1px solid rgba(253,230,138,0.5);
-    }
+    .extra-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.3); border: 1px solid rgba(253,230,138,0.5); }
     .extra-row-label { font-size: 0.875rem; color: #78350F; }
     .extra-row-sub { font-size: 0.72rem; color: #D97706; }
-    .extra-checkbox-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.3);
-      border: 1px solid rgba(253,230,138,0.5);
-      cursor: pointer;
-      margin-bottom: 0;
-    }
-
-    /* Sections */
+    .extra-checkbox-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.3); border: 1px solid rgba(253,230,138,0.5); cursor: pointer; margin-bottom: 0; }
     .section-panel { display: flex; flex-direction: column; gap: 16px; }
     .hidden { display: none !important; }
-
-    /* Total bar */
-    .total-bar {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      padding: 8px 16px 18px;
-      background: linear-gradient(to top, #F5F0EB 70%, transparent);
-      z-index: 50;
-    }
+    .total-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 8px 16px 18px; background: linear-gradient(to top, #F5F0EB 70%, transparent); z-index: 50; }
     .total-inner { max-width: 640px; margin: 0 auto; }
-    .total-card {
-      background: linear-gradient(135deg, #8B5A2B, #6B4423);
-      box-shadow: 0 10px 40px rgba(139,90,43,0.4);
-      border-radius: 16px;
-      padding: 16px;
-      color: white;
-    }
+    .total-card { background: linear-gradient(135deg, #8B5A2B, #6B4423); box-shadow: 0 10px 40px rgba(139,90,43,0.4); border-radius: 16px; padding: 16px; color: white; }
     .total-top { display: flex; align-items: center; justify-content: space-between; }
     .total-lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
     .total-amt { font-size: 1.875rem; font-weight: 700; }
     .total-btns { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
-
-    .btn-ticket {
-      padding: 8px 14px;
-      background: white;
-      color: #92400E;
-      border: none;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      transition: background 0.2s;
-    }
+    .btn-ticket { padding: 8px 14px; background: white; color: #92400E; border: none; border-radius: 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: background 0.2s; }
     .btn-ticket:hover { background: #FEF3C7; }
-
-    .btn-reset {
-      padding: 8px 14px;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: 'Montserrat', sans-serif;
-      transition: background 0.2s;
-    }
+    .btn-reset { padding: 8px 14px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 12px; font-size: 0.8rem; font-weight: 500; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: background 0.2s; }
     .btn-reset:hover { background: rgba(255,255,255,0.3); }
-
-    .total-summary {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255,255,255,0.2);
-      font-size: 0.72rem;
-      max-height: 72px;
-      overflow-y: auto;
-    }
+    .total-summary { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.72rem; max-height: 72px; overflow-y: auto; }
     .total-summary p { opacity: 0.9; margin-bottom: 2px; }
-
-    /* Scrollbars */
-    .deco-list::-webkit-scrollbar,
-    .total-summary::-webkit-scrollbar { width: 4px; }
-    .deco-list::-webkit-scrollbar-track,
-    .total-summary::-webkit-scrollbar-track { background: rgba(139,90,43,0.1); border-radius: 10px; }
-    .deco-list::-webkit-scrollbar-thumb,
-    .total-summary::-webkit-scrollbar-thumb { background: rgba(139,90,43,0.3); border-radius: 10px; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .deco-list::-webkit-scrollbar, .total-summary::-webkit-scrollbar { width: 4px; }
+    .deco-list::-webkit-scrollbar-track, .total-summary::-webkit-scrollbar-track { background: rgba(139,90,43,0.1); border-radius: 10px; }
+    .deco-list::-webkit-scrollbar-thumb, .total-summary::-webkit-scrollbar-thumb { background: rgba(139,90,43,0.3); border-radius: 10px; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .fade-in { animation: fadeIn 0.35s ease-out; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
     <div class="sparkle" style="top:20%;left:15%;"></div>
     <div class="sparkle" style="top:30%;right:20%;animation-delay:.5s;"></div>
@@ -447,7 +114,6 @@
     <p class="tagline">Calculadora de Precios</p>
   </header>
 
-  <!-- Nav -->
   <nav>
     <div class="nav-inner">
       <button class="nav-tab active" data-section="manicure" onclick="showSection('manicure')">💅 Manicure</button>
@@ -457,24 +123,19 @@
   </nav>
 
   <main>
-    <!-- Cliente -->
     <div class="glass-card">
       <h2 class="section-title"><span class="step-badge">👤</span> Cliente</h2>
       <input id="cliente-nombre" type="text" class="cliente-input" placeholder="Nombre del cliente" />
     </div>
 
-    <!-- ── MANICURE ── -->
+    <!-- MANICURE -->
     <div id="section-manicure" class="section-panel fade-in">
-
       <div class="glass-card">
         <h2 class="section-title"><span class="step-badge">1</span> Técnica</h2>
         <div class="tecnica-group">
-
-          <!-- Acrílicas -->
           <div class="collapsible-wrap">
             <button class="collapsible-btn" onclick="toggleCollapsible('acrilicas')">
-              <span>Acrílicas</span>
-              <span class="arrow" id="acrilicas-arrow">▼</span>
+              <span>Acrílicas</span><span class="arrow" id="acrilicas-arrow">▼</span>
             </button>
             <div class="collapsible-body" id="acrilicas-body">
               <p style="font-size:.75rem;color:#B45309;margin-bottom:8px;">Selecciona el largo:</p>
@@ -491,7 +152,6 @@
             </div>
           </div>
 
-          <!-- Forma (oculta hasta elegir acrílico) -->
           <div class="collapsible-wrap" id="forma-section">
             <p style="font-weight:500;color:#78350F;margin-bottom:12px;">Forma</p>
             <div class="forma-grid">
@@ -505,52 +165,40 @@
             </label>
           </div>
 
-          <!-- Baño de acrílico -->
           <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('bano',200,this)">
             <span>Baño de acrílico <span class="sub">(del #1)</span></span>
             <span class="price-tag">$200</span>
           </button>
-
-          <!-- Retoque de acrílico -->
           <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('retoque',200,this)">
-            <span>Retoque </span>
-            <span class="price-tag">$200</span>
+            <span>Retoque</span><span class="price-tag">$200</span>
           </button>
 
-<!-- Rubber -->
-<div class="collapsible-wrap">
-  <button class="collapsible-btn" onclick="toggleCollapsible('rubber')">
-    <span>Rubber</span>
-    <span class="arrow" id="rubber-arrow">▼</span>
-  </button>
-  <div class="collapsible-body" id="rubber-body">
-    <p style="font-size: 12px; color: #888; margin: 8px 0 6px; font-style: italic;">
-      Cualquier técnica incluye solo 1 o 2 tonos a elegir. Con diseño extra incrementa el precio.
-    </p>
-    <div class="rubber-options" style="margin-top:8px;">
-      <button class="rubber-btn tecnica-btn" onclick="selectTecnicaSimple('rubber-corta',180,this)">
-        <span>Uña natural corta</span><strong>$180</strong>
-      </button>
-      <button class="rubber-btn tecnica-btn" onclick="selectTecnicaSimple('rubber-larga',200,this)">
-        <span>Uña natural más larga</span><strong>$200</strong>
-      </button>
-    </div>
-  </div>
-</div>
+          <div class="collapsible-wrap">
+            <button class="collapsible-btn" onclick="toggleCollapsible('rubber')">
+              <span>Rubber</span><span class="arrow" id="rubber-arrow">▼</span>
+            </button>
+            <div class="collapsible-body" id="rubber-body">
+              <p style="font-size: 12px; color: #888; margin: 8px 0 6px; font-style: italic;">Cualquier técnica incluye solo 1 o 2 tonos a elegir. Con diseño extra incrementa el precio.</p>
+              <div class="rubber-options" style="margin-top:8px;">
+                <button class="rubber-btn tecnica-btn" onclick="selectTecnicaSimple('rubber-corta',180,this)">
+                  <span>Uña natural corta</span><strong>$180</strong>
+                </button>
+                <button class="rubber-btn tecnica-btn" onclick="selectTecnicaSimple('rubber-larga',200,this)">
+                  <span>Uña natural más larga</span><strong>$200</strong>
+                </button>
+              </div>
+            </div>
+          </div>
 
-          <!-- Resto de técnicas -->
           <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('nivelacion',230,this)">
-            <span>Acrílico con nivelación Rubber</span>
-            <span class="price-tag">$230</span>
+            <span>Acrílico con nivelación Rubber</span><span class="price-tag">$230</span>
           </button>
           <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('gel',150,this)">
-            <span>Gel Semipermanente <span class="sub">(1-2 tonos)</span></span>
-            <span class="price-tag">$150</span>
+            <span>Gel Semipermanente <span class="sub">(1-2 tonos)</span></span><span class="price-tag">$150</span>
           </button>
         </div>
       </div>
 
-      <!-- Decoraciones -->
       <div class="glass-card">
         <h2 class="section-title"><span class="step-badge">2</span> Decoraciones</h2>
         <p class="deco-hint">Selecciona cuántas uñas con cada decoración</p>
@@ -582,42 +230,46 @@
       </div>
     </div>
 
-<!-- ── PEDICURE ── -->
-<div id="section-pedicure" class="section-panel fade-in hidden">
-  <div class="glass-card">
-    <h2 class="section-title"><span class="step-badge">🦶</span> Pedicure</h2>
-    <div class="pedicure-options">
-      <button class="option-btn pedicure-btn" onclick="selectPedicure('bomba',300,this)">
-        <span>Bomba efervescente</span><span class="price-tag">$300</span>
-      </button>
-      <button class="option-btn pedicure-btn" onclick="selectPedicure('jelly',320,this)">
-        <span>JellySpa</span><span class="price-tag">$320</span>
-      </button>
+    <!-- PEDICURE -->
+    <div id="section-pedicure" class="section-panel fade-in hidden">
+      <div class="glass-card">
+        <h2 class="section-title"><span class="step-badge">🦶</span> Pedicure</h2>
+        <div class="pedicure-options">
+          <button class="option-btn pedicure-btn" onclick="selectPedicure('bomba',300,this)">
+            <span>Bomba efervescente</span><span class="price-tag">$300</span>
+          </button>
+          <button class="option-btn pedicure-btn" onclick="selectPedicure('jelly',320,this)">
+            <span>JellySpa</span><span class="price-tag">$320</span>
+          </button>
+          <!-- NUEVO SERVICIO -->
+          <button class="option-btn pedicure-btn" onclick="selectPedicure('gel-pies',100,this)">
+            <span>Gel Semipermanente Pies <span class="sub">(1-2 tonos)</span></span><span class="price-tag">$100</span>
+          </button>
+        </div>
+
+        <p style="font-size: 12px; color: #888; margin: 12px 0 6px; font-style: italic;">
+          Cualquier técnica incluye solo 1 o 2 tonos a elegir. Con diseño extra incrementa el precio.
+        </p>
+
+        <div class="extras-divider">
+          <p class="extras-label">Extras de pedicure:</p>
+          <label class="checkbox-row">
+            <span class="label">+ Acrílico en 2 uñas</span>
+            <div class="checkbox-right"><span class="price-tag">+$50</span><input type="checkbox" id="pedi-acrilico-2" onchange="updatePedicureExtras()"></div>
+          </label>
+          <label class="checkbox-row">
+            <span class="label">+ Acrílico en todas las uñas</span>
+            <div class="checkbox-right"><span class="price-tag">+$130</span><input type="checkbox" id="pedi-acrilico-all" onchange="updatePedicureExtras()"></div>
+          </label>
+          <label class="checkbox-row">
+            <span class="label">+ Decoración extra</span>
+            <div class="checkbox-right"><span class="price-tag">+$20</span><input type="checkbox" id="pedi-deco" onchange="updatePedicureExtras()"></div>
+          </label>
+        </div>
+      </div>
     </div>
 
-    <p style="font-size: 12px; color: #888; margin: 8px 0 6px; font-style: italic;">
-      Cualquier técnica incluye solo 1 o 2 tonos a elegir. Con diseño extra incrementa el precio.
-    </p>
-
-    <div class="extras-divider">
-      <p class="extras-label">Extras de pedicure:</p>
-      <label class="checkbox-row">
-        <span class="label">+ Acrílico en 2 uñas</span>
-        <div class="checkbox-right"><span class="price-tag">+$50</span><input type="checkbox" id="pedi-acrilico-2" onchange="updatePedicureExtras()"></div>
-      </label>
-      <label class="checkbox-row">
-        <span class="label">+ Acrílico en todas las uñas</span>
-        <div class="checkbox-right"><span class="price-tag">+$130</span><input type="checkbox" id="pedi-acrilico-all" onchange="updatePedicureExtras()"></div>
-      </label>
-      <label class="checkbox-row">
-        <span class="label">+ Decoración extra</span>
-        <div class="checkbox-right"><span class="price-tag">+$20</span><input type="checkbox" id="pedi-deco" onchange="updatePedicureExtras()"></div>
-      </label>
-    </div>
-  </div>
-</div>
-
-    <!-- ── EXTRAS ── -->
+    <!-- EXTRAS -->
     <div id="section-extras" class="section-panel fade-in hidden">
       <div class="glass-card">
         <h2 class="section-title"><span class="step-badge">✨</span> Servicios Extras</h2>
@@ -648,7 +300,6 @@
         </div>
       </div>
     </div>
-
   </main>
 
   <!-- Total Bar -->
@@ -680,7 +331,7 @@
     decoraciones: {},
     pedicure: null, pedicurePrecio: 0, pedicureExtras: 0,
     extras: { reposicion: 0 },
-    extrasCheckbox: { cambioForma: false, retiroAcrilico: false, retiroRubber: false, retoque: false }
+    extrasCheckbox: { cambioForma: false, retiroAcrilico: false, retiroRubber: false }
   };
 
   const decoPrices = {
@@ -720,16 +371,12 @@
   }
 
   function selectAcrilico(num, precio, btn) {
-    // Toggle: si ya está seleccionado, deseleccionar
     if (btn.classList.contains('selected-option')) {
-      clearTecnicaSelection();
-      state.tecnica = null; state.tecnicaPrecio = 0;
-      calculateTotal();
-      return;
+      clearTecnicaSelection(); state.tecnica = null; state.tecnicaPrecio = 0;
+      calculateTotal(); return;
     }
     clearTecnicaSelection();
-    state.tecnica = 'Acrílicas #' + num;
-    state.tecnicaPrecio = precio;
+    state.tecnica = 'Acrílicas #' + num; state.tecnicaPrecio = precio;
     document.querySelectorAll('.acrilico-btn').forEach(b => b.classList.remove('selected-option'));
     btn.classList.add('selected-option');
     document.getElementById('forma-section').style.display = 'block';
@@ -737,64 +384,53 @@
   }
 
   function selectForma(forma, precio, btn) {
-    // Toggle: si ya está seleccionado, deseleccionar
     if (btn.classList.contains('selected-option')) {
       state.forma = null; state.formaPrecio = 0;
-      btn.classList.remove('selected-option');
-      calculateTotal();
-      return;
+      btn.classList.remove('selected-option'); calculateTotal(); return;
     }
     state.forma = forma; state.formaPrecio = precio;
     document.querySelectorAll('.forma-btn').forEach(b => b.classList.remove('selected-option'));
-    btn.classList.add('selected-option');
-    calculateTotal();
+    btn.classList.add('selected-option'); calculateTotal();
   }
 
   function toggleAcrilicoColor() {
-    state.acrilicoColor = document.getElementById('acrilico-color').checked;
-    calculateTotal();
+    state.acrilicoColor = document.getElementById('acrilico-color').checked; calculateTotal();
   }
 
   function selectTecnicaSimple(tipo, precio, btn) {
-    // Toggle: si ya está seleccionado, deseleccionar
     if (btn.classList.contains('selected-option')) {
-      clearTecnicaSelection();
-      state.tecnica = null; state.tecnicaPrecio = 0;
-      calculateTotal();
-      return;
+      clearTecnicaSelection(); state.tecnica = null; state.tecnicaPrecio = 0;
+      calculateTotal(); return;
     }
     clearTecnicaSelection();
     const nombres = {
       'bano':'Baño de acrílico','rubber-corta':'Rubber uña corta','rubber-larga':'Rubber uña larga',
-      'nivelacion':'Acrílico con nivelación Rubber','retoque-rubber':'Retoque de Rubber',
-      'gel':'Gel Semipermanente','gel-pies-manos':'Gel Semipermanente Pies'
+      'nivelacion':'Acrílico con nivelación Rubber','retoque':'Retoque','gel':'Gel Semipermanente'
     };
     state.tecnica = nombres[tipo]; state.tecnicaPrecio = precio;
     document.querySelectorAll('.tecnica-btn, .rubber-btn').forEach(b => b.classList.remove('selected-option'));
-    btn.classList.add('selected-option');
-    calculateTotal();
+    btn.classList.add('selected-option'); calculateTotal();
   }
 
   function updateDeco(deco, delta) {
     if (!state.decoraciones[deco]) state.decoraciones[deco] = 0;
     state.decoraciones[deco] = Math.max(0, state.decoraciones[deco] + delta);
-    document.getElementById('deco-' + deco).textContent = state.decoraciones[deco];
-    calculateTotal();
+    document.getElementById('deco-' + deco).textContent = state.decoraciones[deco]; calculateTotal();
   }
 
   function selectPedicure(tipo, precio, btn) {
-    // Toggle: si ya está seleccionado, deseleccionar
     if (btn.classList.contains('selected-option')) {
       state.pedicure = null; state.pedicurePrecio = 0;
-      btn.classList.remove('selected-option');
-      calculateTotal();
-      return;
+      btn.classList.remove('selected-option'); calculateTotal(); return;
     }
-    const nombres = { 'sencillo':'Pedicure Sencillo','bomba':'Pedicure Bomba','jelly':'Pedicure JellySpa','gel-pies':'Gel Semipermanente Pies' };
+    const nombres = {
+      'bomba':'Pedicure Bomba efervescente',
+      'jelly':'Pedicure JellySpa',
+      'gel-pies':'Gel Semipermanente Pies (1-2 tonos)'
+    };
     state.pedicure = nombres[tipo]; state.pedicurePrecio = precio;
     document.querySelectorAll('.pedicure-btn').forEach(b => b.classList.remove('selected-option'));
-    btn.classList.add('selected-option');
-    calculateTotal();
+    btn.classList.add('selected-option'); calculateTotal();
   }
 
   function updatePedicureExtras() {
@@ -809,8 +445,7 @@
 
   function updateExtra(extra, delta) {
     state.extras[extra] = Math.max(0, state.extras[extra] + delta);
-    document.getElementById('extra-' + extra).textContent = state.extras[extra];
-    calculateTotal();
+    document.getElementById('extra-' + extra).textContent = state.extras[extra]; calculateTotal();
   }
 
   function updateExtrasCheckbox() {
@@ -828,13 +463,12 @@
     for (const [d, qty] of Object.entries(state.decoraciones)) {
       if (qty > 0) { const c = qty * decoPrices[d]; total += c; items.push({ label: decoNames[d] + ' x' + qty, precio: c }); }
     }
-    if (state.pedicurePrecio > 0)  { total += state.pedicurePrecio;  items.push({ label: state.pedicure, precio: state.pedicurePrecio }); }
-    if (state.pedicureExtras > 0)  { total += state.pedicureExtras;  items.push({ label: 'Extras pedicure', precio: state.pedicureExtras }); }
-    if (state.extras.reposicion>0) { const c=state.extras.reposicion*20; total+=c; items.push({ label:'Reposición ('+state.extras.reposicion+' uñas)', precio:c }); }
-    if (state.extrasCheckbox.cambioForma)    { total+=50;  items.push({ label:'Cambio de forma', precio:50 }); }
-    if (state.extrasCheckbox.retiroAcrilico) { total+=100; items.push({ label:'Retiro acrílico', precio:100 }); }
-    if (state.extrasCheckbox.retiroRubber)   { total+=70;  items.push({ label:'Retiro Rubber', precio:70 }); }
-    if (state.extrasCheckbox.retoque)        { total+=200; items.push({ label:'Retoque', precio:200 }); }
+    if (state.pedicurePrecio > 0) { total += state.pedicurePrecio; items.push({ label: state.pedicure, precio: state.pedicurePrecio }); }
+    if (state.pedicureExtras > 0) { total += state.pedicureExtras; items.push({ label: 'Extras pedicure', precio: state.pedicureExtras }); }
+    if (state.extras.reposicion > 0) { const c = state.extras.reposicion * 20; total += c; items.push({ label: 'Reposición (' + state.extras.reposicion + ' uñas)', precio: c }); }
+    if (state.extrasCheckbox.cambioForma)    { total += 50;  items.push({ label: 'Cambio de forma', precio: 50 }); }
+    if (state.extrasCheckbox.retiroAcrilico) { total += 100; items.push({ label: 'Retiro acrílico', precio: 100 }); }
+    if (state.extrasCheckbox.retiroRubber)   { total += 70;  items.push({ label: 'Retiro Rubber', precio: 70 }); }
     return { total, items };
   }
 
@@ -847,122 +481,51 @@
   }
 
   function generarTicketPDF() {
-    if (!window.jspdf || !window.jspdf.jsPDF) {
-      alert('El generador de PDF aun esta cargando, intenta de nuevo.');
-      return;
-    }
+    if (!window.jspdf || !window.jspdf.jsPDF) { alert('El generador de PDF aun esta cargando, intenta de nuevo.'); return; }
     var { total, items } = buildSummary();
     var cliente = document.getElementById('cliente-nombre').value.trim() || 'Sin nombre';
     var now = new Date();
     var fecha = now.toLocaleDateString('es-MX', { day:'2-digit', month:'2-digit', year:'numeric' });
     var hora  = now.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit' });
-
-    // Calcular altura dinamica
-    var lineH = 7;
-    var totalLines = 0;
-    items.forEach(function(it) {
-      totalLines += Math.ceil(it.label.length / 26) || 1;
-    });
+    var lineH = 7, totalLines = 0;
+    items.forEach(function(it) { totalLines += Math.ceil(it.label.length / 26) || 1; });
     if (!items.length) totalLines = 1;
     var pageHeight = Math.max(70 + (totalLines * lineH) + 35, 120);
-
     var { jsPDF } = window.jspdf;
     var doc = new jsPDF({ unit: 'mm', format: [80, pageHeight], orientation: 'portrait' });
-    var W = doc.internal.pageSize.getWidth();
-    var M = 6;
-    var y = 12;
-
-    // Encabezado
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(15);
-    doc.text('Pretty Nails', W / 2, y, { align: 'center' });
-    y += 7;
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.text('Calculadora de Precios', W / 2, y, { align: 'center' });
-    y += 5;
-
+    var W = doc.internal.pageSize.getWidth(), M = 6, y = 12;
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(15);
+    doc.text('Pretty Nails', W / 2, y, { align: 'center' }); y += 7;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    doc.text('Calculadora de Precios', W / 2, y, { align: 'center' }); y += 5;
     doc.setFontSize(7);
-    doc.text('Fecha: ' + fecha + '   Hora: ' + hora, W / 2, y, { align: 'center' });
-    y += 5;
-
-    doc.setDrawColor(139, 90, 43);
-    doc.setLineWidth(0.4);
-    doc.line(M, y, W - M, y);
-    y += 6;
-
-    // Cliente
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text('Cliente: ' + cliente, M, y);
-    y += 6;
-
-    doc.setLineWidth(0.2);
-    doc.line(M, y, W - M, y);
-    y += 5;
-
-    // Items
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-
-    if (!items.length) {
-      doc.text('Sin servicios seleccionados', M, y);
-      y += lineH;
-    } else {
-      items.forEach(function(it) {
-        var maxW = W - M - 16;
-        var lines = doc.splitTextToSize(it.label, maxW);
-        doc.text(lines, M, y);
-        doc.text('$' + it.precio, W - M, y, { align: 'right' });
-        y += lineH * lines.length;
-      });
-    }
-
-    // Total
-    y += 3;
-    doc.setDrawColor(139, 90, 43);
-    doc.setLineWidth(0.5);
-    doc.line(M, y, W - M, y);
-    y += 6;
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0);
-    doc.text('TOTAL:', M, y);
-    doc.text('$' + total, W - M, y, { align: 'right' });
-    y += 9;
-
-    // Footer
-    doc.setFont('helvetica', 'italic');
-    doc.setFontSize(7);
-    doc.setTextColor(139, 90, 43);
+    doc.text('Fecha: ' + fecha + '   Hora: ' + hora, W / 2, y, { align: 'center' }); y += 5;
+    doc.setDrawColor(139, 90, 43); doc.setLineWidth(0.4); doc.line(M, y, W - M, y); y += 6;
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
+    doc.text('Cliente: ' + cliente, M, y); y += 6;
+    doc.setLineWidth(0.2); doc.line(M, y, W - M, y); y += 5;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    if (!items.length) { doc.text('Sin servicios seleccionados', M, y); y += lineH; }
+    else { items.forEach(function(it) { var maxW = W - M - 16; var lines = doc.splitTextToSize(it.label, maxW); doc.text(lines, M, y); doc.text('$' + it.precio, W - M, y, { align: 'right' }); y += lineH * lines.length; }); }
+    y += 3; doc.setDrawColor(139, 90, 43); doc.setLineWidth(0.5); doc.line(M, y, W - M, y); y += 6;
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(0, 0, 0);
+    doc.text('TOTAL:', M, y); doc.text('$' + total, W - M, y, { align: 'right' }); y += 9;
+    doc.setFont('helvetica', 'italic'); doc.setFontSize(7); doc.setTextColor(139, 90, 43);
     doc.text('Gracias por tu visita <3', W / 2, y, { align: 'center' });
-
     var nombreArchivo = 'ticket-' + cliente.replace(/\s+/g, '-') + '-' + fecha.replace(/\//g, '-') + '.pdf';
     doc.save(nombreArchivo);
   }
 
-
   function resetAll() {
-    state = {
-      tecnica:null, tecnicaPrecio:0, forma:null, formaPrecio:0, acrilicoColor:false,
-      decoraciones:{}, pedicure:null, pedicurePrecio:0, pedicureExtras:0,
-      extras:{ reposicion:0 },
-      extrasCheckbox:{ cambioForma:false, retiroAcrilico:false, retiroRubber:false}
-    };
+    state = { tecnica:null, tecnicaPrecio:0, forma:null, formaPrecio:0, acrilicoColor:false, decoraciones:{}, pedicure:null, pedicurePrecio:0, pedicureExtras:0, extras:{ reposicion:0 }, extrasCheckbox:{ cambioForma:false, retiroAcrilico:false, retiroRubber:false } };
     document.querySelectorAll('.selected-option').forEach(el => el.classList.remove('selected-option'));
     document.querySelectorAll('[id^="deco-"]').forEach(el => el.textContent = '0');
     document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
     document.getElementById('extra-reposicion').textContent = '0';
     document.getElementById('cliente-nombre').value = '';
     document.getElementById('forma-section').style.display = 'none';
-    ['acrilicas','rubber'].forEach(id => {
-      document.getElementById(id+'-body').classList.remove('open');
-      document.getElementById(id+'-arrow').style.transform = 'rotate(0deg)';
-    });
-    calculateTotal();
-    showSection('manicure');
+    ['acrilicas','rubber'].forEach(id => { document.getElementById(id+'-body').classList.remove('open'); document.getElementById(id+'-arrow').style.transform = 'rotate(0deg)'; });
+    calculateTotal(); showSection('manicure');
   }
 
   calculateTotal();
