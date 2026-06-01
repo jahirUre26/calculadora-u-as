@@ -511,42 +511,42 @@
             <span class="price-tag">$200</span>
           </button>
 
-          <!-- Rubber -->
-          <div class="collapsible-wrap">
-            <button class="collapsible-btn" onclick="toggleCollapsible('rubber')">
-              <span>Rubber</span>
-              <span class="arrow" id="rubber-arrow">▼</span>
-            </button>
-            <div class="collapsible-body" id="rubber-body">
-              <div class="rubber-options" style="margin-top:8px;">
-                <button class="rubber-btn tecnica-btn" onclick="selectTecnicaSimple('rubber-corta',180,this)">
-                  <span>Uña natural corta</span><strong>$180</strong>
-                </button>
-                <button class="rubber-btn tecnica-btn" onclick="selectTecnicaSimple('rubber-larga',200,this)">
-                  <span>Uña natural más larga</span><strong>$200</strong>
-                </button>
-              </div>
-            </div>
-          </div>
+          <!-- Retoque de acrílico -->
+          <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('retoque',200,this)">
+            <span>Retoque </span>
+            <span class="price-tag">$200</span>
+          </button>
+
+<!-- Rubber -->
+<div class="collapsible-wrap">
+  <button class="collapsible-btn" onclick="toggleCollapsible('rubber')">
+    <span>Rubber</span>
+    <span class="arrow" id="rubber-arrow">▼</span>
+  </button>
+  <div class="collapsible-body" id="rubber-body">
+    <p style="font-size: 12px; color: #888; margin: 8px 0 6px; font-style: italic;">
+      Cualquier técnica incluye solo 1 o 2 tonos a elegir. Con diseño extra incrementa el precio.
+    </p>
+    <div class="rubber-options" style="margin-top:8px;">
+      <button class="rubber-btn tecnica-btn" onclick="selectTecnicaSimple('rubber-corta',180,this)">
+        <span>Uña natural corta</span><strong>$180</strong>
+      </button>
+      <button class="rubber-btn tecnica-btn" onclick="selectTecnicaSimple('rubber-larga',200,this)">
+        <span>Uña natural más larga</span><strong>$200</strong>
+      </button>
+    </div>
+  </div>
+</div>
 
           <!-- Resto de técnicas -->
           <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('nivelacion',230,this)">
             <span>Acrílico con nivelación Rubber</span>
             <span class="price-tag">$230</span>
           </button>
-          <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('retoque-rubber',200,this)">
-            <span>Retoque de Rubber</span>
-            <span class="price-tag">$200</span>
-          </button>
           <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('gel',150,this)">
             <span>Gel Semipermanente <span class="sub">(1-2 tonos)</span></span>
             <span class="price-tag">$150</span>
           </button>
-          <button class="option-btn tecnica-btn" onclick="selectTecnicaSimple('gel-pies-manos',100,this)">
-            <span>Gel Semipermanente Pies</span>
-            <span class="price-tag">$100</span>
-          </button>
-
         </div>
       </div>
 
@@ -582,41 +582,40 @@
       </div>
     </div>
 
-    <!-- ── PEDICURE ── -->
-    <div id="section-pedicure" class="section-panel fade-in hidden">
-      <div class="glass-card">
-        <h2 class="section-title"><span class="step-badge">🦶</span> Pedicure</h2>
-        <div class="pedicure-options">
-          <button class="option-btn pedicure-btn" onclick="selectPedicure('sencillo',260,this)">
-            <span>Sencillo <span class="sub">(1-2 tonos)</span></span><span class="price-tag">$260</span>
-          </button>
-          <button class="option-btn pedicure-btn" onclick="selectPedicure('bomba',300,this)">
-            <span>Bomba efervescente</span><span class="price-tag">$300</span>
-          </button>
-          <button class="option-btn pedicure-btn" onclick="selectPedicure('jelly',320,this)">
-            <span>JellySpa</span><span class="price-tag">$320</span>
-          </button>
-          <button class="option-btn pedicure-btn" onclick="selectPedicure('gel-pies',100,this)">
-            <span>Gel Semipermanente Pies</span><span class="price-tag">$100</span>
-          </button>
-        </div>
-        <div class="extras-divider">
-          <p class="extras-label">Extras de pedicure:</p>
-          <label class="checkbox-row">
-            <span class="label">+ Acrílico en 2 uñas</span>
-            <div class="checkbox-right"><span class="price-tag">+$50</span><input type="checkbox" id="pedi-acrilico-2" onchange="updatePedicureExtras()"></div>
-          </label>
-          <label class="checkbox-row">
-            <span class="label">+ Acrílico en todas las uñas</span>
-            <div class="checkbox-right"><span class="price-tag">+$130</span><input type="checkbox" id="pedi-acrilico-all" onchange="updatePedicureExtras()"></div>
-          </label>
-          <label class="checkbox-row">
-            <span class="label">+ Decoración extra</span>
-            <div class="checkbox-right"><span class="price-tag">+$20</span><input type="checkbox" id="pedi-deco" onchange="updatePedicureExtras()"></div>
-          </label>
-        </div>
-      </div>
+<!-- ── PEDICURE ── -->
+<div id="section-pedicure" class="section-panel fade-in hidden">
+  <div class="glass-card">
+    <h2 class="section-title"><span class="step-badge">🦶</span> Pedicure</h2>
+    <div class="pedicure-options">
+      <button class="option-btn pedicure-btn" onclick="selectPedicure('bomba',300,this)">
+        <span>Bomba efervescente</span><span class="price-tag">$300</span>
+      </button>
+      <button class="option-btn pedicure-btn" onclick="selectPedicure('jelly',320,this)">
+        <span>JellySpa</span><span class="price-tag">$320</span>
+      </button>
     </div>
+
+    <p style="font-size: 12px; color: #888; margin: 8px 0 6px; font-style: italic;">
+      Cualquier técnica incluye solo 1 o 2 tonos a elegir. Con diseño extra incrementa el precio.
+    </p>
+
+    <div class="extras-divider">
+      <p class="extras-label">Extras de pedicure:</p>
+      <label class="checkbox-row">
+        <span class="label">+ Acrílico en 2 uñas</span>
+        <div class="checkbox-right"><span class="price-tag">+$50</span><input type="checkbox" id="pedi-acrilico-2" onchange="updatePedicureExtras()"></div>
+      </label>
+      <label class="checkbox-row">
+        <span class="label">+ Acrílico en todas las uñas</span>
+        <div class="checkbox-right"><span class="price-tag">+$130</span><input type="checkbox" id="pedi-acrilico-all" onchange="updatePedicureExtras()"></div>
+      </label>
+      <label class="checkbox-row">
+        <span class="label">+ Decoración extra</span>
+        <div class="checkbox-right"><span class="price-tag">+$20</span><input type="checkbox" id="pedi-deco" onchange="updatePedicureExtras()"></div>
+      </label>
+    </div>
+  </div>
+</div>
 
     <!-- ── EXTRAS ── -->
     <div id="section-extras" class="section-panel fade-in hidden">
@@ -645,10 +644,6 @@
           <label class="extra-checkbox-row">
             <span class="extra-row-label">Retiro de Rubber</span>
             <div class="checkbox-right"><span class="price-tag">$70</span><input type="checkbox" id="extra-retiro-rubber" onchange="updateExtrasCheckbox()"></div>
-          </label>
-          <label class="extra-checkbox-row">
-            <span class="extra-row-label">Retoque</span>
-            <div class="checkbox-right"><span class="price-tag">$200</span><input type="checkbox" id="extra-retoque" onchange="updateExtrasCheckbox()"></div>
           </label>
         </div>
       </div>
