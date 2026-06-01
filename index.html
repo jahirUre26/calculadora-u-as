@@ -817,7 +817,6 @@
     state.extrasCheckbox.cambioForma    = document.getElementById('extra-cambio-forma').checked;
     state.extrasCheckbox.retiroAcrilico = document.getElementById('extra-retiro-acrilico').checked;
     state.extrasCheckbox.retiroRubber   = document.getElementById('extra-retiro-rubber').checked;
-    state.extrasCheckbox.retoque        = document.getElementById('extra-retoque').checked;
     calculateTotal();
   }
 
@@ -950,7 +949,7 @@
       tecnica:null, tecnicaPrecio:0, forma:null, formaPrecio:0, acrilicoColor:false,
       decoraciones:{}, pedicure:null, pedicurePrecio:0, pedicureExtras:0,
       extras:{ reposicion:0 },
-      extrasCheckbox:{ cambioForma:false, retiroAcrilico:false, retiroRubber:false, retoque:false }
+      extrasCheckbox:{ cambioForma:false, retiroAcrilico:false, retiroRubber:false}
     };
     document.querySelectorAll('.selected-option').forEach(el => el.classList.remove('selected-option'));
     document.querySelectorAll('[id^="deco-"]').forEach(el => el.textContent = '0');
